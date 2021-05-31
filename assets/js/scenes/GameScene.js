@@ -5,18 +5,19 @@ class GameScene extends Phaser.Scene {
 
     }
 
+    init (){
+
+       // run Ui Scene in parallel with Game Scene
+      this.scene.launch ('Ui')
+    }
+
     create(){
 
         // create sound game object
  var goldPickupAudio = this.sound.add ('goldSound', {loop:false, volume: 0.4});
 
 
- //create an image
- var button = this.add.image(100, 100, 'button1');
- button.setOrigin(0.5,0.5);
 
- // create a sprite
- this.add.sprite(300,100, 'button1'); 
 
 this.chest = new Chest(this, 300, 300, 'items', 0);
 
