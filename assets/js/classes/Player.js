@@ -5,9 +5,9 @@ constructor (scene, x, y, key, frame){
 super (scene, x, y, key, frame);
 
  //store a reference to the scene
-this.scene = scene;
+this.scene = scene; //The scene this container (?!) will be added to
 
-this.velocity=160;
+this.velocity=160; //the velocity when moving our player
 
 //enable physics
 
