@@ -15,13 +15,14 @@ class GameScene extends Phaser.Scene {
 
     create(){
 
+      this.createMap ();
+
         // create sound game object
       this.createAudio ()
 
       this.createChests ()
 
- // make the wall and immovable
-  this.createWalls ()
+ 
 
   // create character game object
 
@@ -39,6 +40,8 @@ class GameScene extends Phaser.Scene {
  // create bindings to the arrow keys
 
  this.createInput ();
+
+
 
  }
 
@@ -104,14 +107,7 @@ this.maxNumberOfChests = 3;
   
  }
 
- createWalls (){
-   //make the wall
- // make the wall immovable
 
- this.wall = this.physics.add.image (500, 100, 'button1');
- this.wall.setImmovable ();
-
- }
 
  createInput (){
  // create bindings to the arrow keys
@@ -146,4 +142,24 @@ this.physics.add.overlap (this.player, this.chests, this.collectChest, null, thi
   //Spawn a new chest
   this.time.delayedCall(1000, this.spawnChest, [], this);
  }
+
+createMap (){
+
+  //create the tilemap
+
+  this.map = this.make.tilemap ({key: 'map'});
+  //add the tileset image to the map
+
+  this.tiles = this.map.addTilesetImage ('background', 'background', 32, 32, 1, 2);
+  //create background layer
+
+  this.backgroundLayer = this.map.createStaticLayer ('background', this.tiles, 0, 0);
+  this.backgroundLayer.setScale (2)
+
+  // create blocked layer
+  this.blockedLayer = this.map.createStaticLayer ('blocked', this.tiles, 0, 0);
+  this.blockedLayer.setScale (2)
+
+}
+
 }

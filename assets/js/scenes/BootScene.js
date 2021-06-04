@@ -15,12 +15,19 @@ class BootScene extends Phaser.Scene {
         // load the audio asset
          this.loadAudio ();
 
+         //load Tilemap
+
+         this.loadTileMap ();
+
     }
 
     loadImages (){
     //Load images
     this.load.image ('button1', 'assets/images/ui/blue_button01.png');
     this.load.image ('button2', 'assets/images/ui/blue_button02.png');
+    //Load the map tileset image
+    this.load.image ('background', 'assets/level/background-extruded.png');
+
 
     }
 
@@ -38,9 +45,18 @@ class BootScene extends Phaser.Scene {
 
     }
 
+    loadTileMap(){
+
+        //Map made with Tiled in JSON
+
+        this.load.tilemapTiledJSON ('map', 'assets/level/large_level.json');
+    }
+
+    
+
    create() {
        // transition to Title Scene 
-this.scene.start ('Title');
+this.scene.start ('Game');
 
    }
 
