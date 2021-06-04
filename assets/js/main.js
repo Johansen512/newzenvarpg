@@ -19,7 +19,10 @@ var config = {
             },
         },
 
-    }
+    },
+
+    pixelArt: true,
+    roundPixels: true,
 
 };
 

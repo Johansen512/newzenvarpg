@@ -10,7 +10,6 @@ this.scene = scene; //The scene this container (?!) will be added to
 this.velocity=160; //the velocity when moving our player
 
 //enable physics
-
 this.scene.physics.world.enable (this);
 
 //set immovable if another object collides with our player
@@ -28,6 +27,8 @@ this.setCollideWorldBounds(true);
 //Add the player to the existing scene
 
 this.scene.add.existing (this);
+//have the camera follow the player
+this.scene.cameras.main.startFollow (this)
 
 }
 
