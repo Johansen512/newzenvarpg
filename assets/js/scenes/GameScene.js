@@ -15,39 +15,20 @@ class GameScene extends Phaser.Scene {
 
     create(){
 
-      this.createMap ();
-
+      this.createMap();
         // create sound game object
-      this.createAudio ()
-
-      this.createChests ()
-
- 
-
-  // create character game object
-
- this.createPlayer ()
-
-
- // add a collider between player and objects
- // check for overlap between player and other physics objects
- // play audio and destroy chest
- this.addCollisions ()
-
- 
- 
-
- // create bindings to the arrow keys
-
- this.createInput ();
-
-
+      this.createAudio();
+      this.createChests();
+   
+        // create bindings to the arrow keys
+      this.createInput();
+      this.createGameManager();
 
  }
 
  update () {
 
-   this.player.update (this.cursors)
+  if (this.player) this.player.update (this.cursors)
  
  }
 
@@ -58,10 +39,10 @@ class GameScene extends Phaser.Scene {
 
  }
 
- createPlayer () {
+ createPlayer (location) {
  // create character game object
 
- this.player = new Player (this, 224, 224, 'characters', 0);
+ this.player = new Player (this, location[0] * 2, location[1] * 2, 'characters', 0);
 
  }
 
@@ -149,6 +130,22 @@ createMap (){
 
  this.map = new Map (this, 'map', 'background', 'background', 'blocked');
 
+}
+
+createGameManager (){
+
+  this.events.on ('spawnPlayer', (location) => {
+
+        // create character game object
+        this.createPlayer(location);
+        // add a collider between player and objects
+        // check for overlap between player and other physics objects
+        // play audio and destroy chest
+        this.addCollisions();
+});
+
+  this.gameManager = new GameManager (this, this.map.map.objects);
+  this.gameManager.setup();
 }
 
 }

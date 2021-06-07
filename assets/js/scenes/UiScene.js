@@ -38,7 +38,7 @@ class UiScene extends Phaser.Scene {
         this.gameScene.events.on ('updateScore', (score) => {
 
             this.scoreText.setText (`Coins: ${score}`);
-        })
+        });
 
 
 
