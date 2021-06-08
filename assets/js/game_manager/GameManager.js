@@ -29,14 +29,28 @@ class GameManager {
               this.playerLocations.push([obj.x, obj.y]);
             });
           } else if (layer.name === 'chest_locations') {
-            layer.objects.forEach((obj) => {
-                //var spawner = getTiledProperty(obj, 'spawner');
+           layer.objects.forEach((obj) => {
+                var spawner = getTiledProperty(obj, 'spawner');
               if (this.chestLocations[obj.properties.spawner]) {
                 this.chestLocations[obj.properties.spawner].push([obj.x, obj.y]);
               } else {
-                this.chestLocations[obj.properties.spawner] = [[obj.x, obj.y]];
+               this.chestLocations[obj.properties.spawner] = [[obj.x, obj.y]];
               }
             });
+          /* layer.objects.forEach((obj) => {
+              var spawner = getTiledProperty(obj, 'spawner');
+              //console.log (property.value)
+            if (this.chestLocations[spawner]) {
+              this.chestLocations[spawner].push([obj.x, obj.y]);
+            } else {
+              this.chestLocations[spawner] = [[obj.x, obj.y]];
+            }
+          });*/
+
+
+
+
+
           } else if (layer.name === 'monster_locations') {
             layer.objects.forEach((obj) => {
                 //var spawner = getTiledProperty(obj, 'spawner');
@@ -49,9 +63,12 @@ class GameManager {
           }
         });
 
+       
+
         console.log (this.playerLocations);
         console.log (this.monsterLocations);
         console.log (this.chestLocations);
+        
       }
 
     setupEventListener(){
