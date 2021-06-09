@@ -51,6 +51,9 @@ class GameScene extends Phaser.Scene {
   //Create Chest Group
   this.chests = this.physics.add.group();
 
+  //Create Monster Group
+  this.monsters = this.physics.add.group();
+
 
   
 
@@ -59,11 +62,20 @@ class GameScene extends Phaser.Scene {
  spawnChest(chestObject){
   let chest = this.chests.getFirstDead();
   
-  if (!chest) {  const chest = new Chest(this, chestObject.x * 2, chestObject.y *2, 'items', 0, chestObject.gold, chestObject.id);
+  if (!chest) {  chest = new Chest(
+    this, 
+    chestObject.x * 2, 
+    chestObject.y *2, 
+    'items', 0, 
+    chestObject.gold, 
+    chestObject.id
+    
+    );
 
   
   //add chest to chest group
     this.chests.add (chest)
+    chest.setCollideWorldBounds(true);
 
   } else {
     chest.coins = chestObject.gold;
@@ -74,6 +86,41 @@ class GameScene extends Phaser.Scene {
  
 
   
+ }
+
+ spawnMonster (monsterObject){
+
+  let monster = this.monsters.getFirstDead();
+  
+  if (!monster) {  monster = new Monster(
+    this, 
+    monsterObject.x * 2, 
+    monsterObject.y *2, 
+    'monsters', 
+    monsterObject.frame,
+    monsterObject.id,
+    monsterObject.health, 
+    monsterObject.maxHealth,
+
+    
+    );
+
+  
+  //add monster to monsters group
+    this.monsters.add (monster);
+    monster.setCollideWorldBounds(true);
+
+  } else {
+    
+    monster.id = monsterObject.id;
+    monster.health = monsterObject.health;
+    monster.maxHealth = monsterObject.maxHealth;
+    monster.setTexture('monsters', monsterObject.frame);
+    monster.setPosition (monsterObject.x * 2, monsterObject.y *2);
+    monster.makeActive();
+  }
+
+  console.log (monsterObject);
  }
 
 
@@ -92,6 +139,19 @@ this.physics.add.collider (this.player, this.map.blockedLayer)
 // check for overlap between player and other physics objects
 // play audio and destroy chest
 this.physics.add.overlap (this.player, this.chests, this.collectChest, null, this);
+
+
+// add a collider between monster group and blocked Layer items
+this.physics.add.collider (this.monsters, this.map.blockedLayer)
+
+//check for overlap between player and monster gameobjects
+this.physics.add.overlap (this.player, this.monsters, this.enemyOverlap, null, this);
+
+ }
+
+ enemyOverlap (player, enemy){
+   enemy.makeInactive();
+   this.events.emit ('destroyEnemy', enemy.id)
 
  }
 
@@ -136,6 +196,13 @@ this.events.on ('chestSpawned', (chest) => {
 
   // create chest game object
   this.spawnChest(chest)
+ 
+});
+
+this.events.on ('monsterSpawned', (monster) => {
+
+  // create monster game object
+  this.spawnMonster(monster)
  
 });
 
