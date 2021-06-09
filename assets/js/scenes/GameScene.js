@@ -18,7 +18,7 @@ class GameScene extends Phaser.Scene {
       this.createMap();
         // create sound game object
       this.createAudio();
-      this.createChests();
+      this.createGroups();
    
         // create bindings to the arrow keys
       this.createInput();
@@ -46,41 +46,29 @@ class GameScene extends Phaser.Scene {
 
  }
 
- createChests (){
+ createGroups(){
 
   //Create Chest Group
   this.chests = this.physics.add.group();
 
-//creaat chest positions array
-this.chestPositions = [[100,100],[200,200],[300,300],[400,400], [500,500]]
 
-
-
-  //specify the max number of chests we can have
-this.maxNumberOfChests = 3;
-
-  //Spawn a chest
-  for (let i = 0; i < this.maxNumberOfChests; i += 1) {
-    this.spawnChest ();
-  }
   
 
  }
 
- spawnChest(){
-  const location = this.chestPositions [Math.floor(Math.random () * this.chestPositions.length)];
-
+ spawnChest(chestObject){
   let chest = this.chests.getFirstDead();
   
-  if (!chest) {  const chest = new Chest(this, location [0], location [1], 'items', 0);
+  if (!chest) {  const chest = new Chest(this, chestObject.x * 2, chestObject.y *2, 'items', 0, chestObject.gold, chestObject.id);
 
   
   //add chest to chest group
     this.chests.add (chest)
 
   } else {
-
-    chest.setPosition (location [0], location [1]);
+    chest.coins = chestObject.gold;
+    chest.id = chestObject.id;
+    chest.setPosition (chestObject.x * 2, chestObject.y *2);
     chest.makeActive();
   }
  
@@ -120,8 +108,8 @@ this.physics.add.overlap (this.player, this.chests, this.collectChest, null, thi
   //make the chest game object inactive
   chest.makeInactive();
 
-  //Spawn a new chest
-  this.time.delayedCall(1000, this.spawnChest, [], this);
+
+  this.events.emit ('pickUpChest', chest.id)
  }
 
 createMap (){
@@ -142,6 +130,13 @@ createGameManager (){
         // check for overlap between player and other physics objects
         // play audio and destroy chest
         this.addCollisions();
+});
+
+this.events.on ('chestSpawned', (chest) => {
+
+  // create chest game object
+  this.spawnChest(chest)
+ 
 });
 
   this.gameManager = new GameManager (this, this.map.map.objects);
