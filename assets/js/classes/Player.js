@@ -17,8 +17,8 @@ this.scene.physics.world.enable (this);
 this.setImmovable (false)
 
 //Scale our player
-
-this.setScale(2);
+//CHANGED TO 1.7!!!!
+this.setScale(1.7);
 
 // prevent the player from leaving the game area collide with world bounds
 

@@ -1,6 +1,6 @@
 class Chest extends Phaser.Physics.Arcade.Image {
 
-    constructor (scene, x, y, key, frame){
+    constructor (scene, x, y, key, frame, coins, id){
     
     super (scene, x, y, key, frame);
 
@@ -8,7 +8,9 @@ class Chest extends Phaser.Physics.Arcade.Image {
 
     this.scene = scene; //The scene this game object will be added to
     
-    this.coins=10; //The amount of coins this chest contains
+    this.coins= coins; //The amount of coins this chest contains
+
+    this.id = id;
     
     //enable physics
     
@@ -18,6 +20,9 @@ class Chest extends Phaser.Physics.Arcade.Image {
     //Add the chest to the existing scene
     
     this.scene.add.existing (this);
+
+    //Scale the chest game object
+    this.setScale(2);
     
     }
     makeActive(){
