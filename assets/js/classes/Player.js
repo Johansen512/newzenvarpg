@@ -18,7 +18,7 @@ this.setImmovable (false)
 
 //Scale our player
 //CHANGED TO 1.7!!!!
-this.setScale(1.7);
+this.setScale(1.6);
 
 // prevent the player from leaving the game area collide with world bounds
 
