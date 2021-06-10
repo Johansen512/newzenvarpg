@@ -84,12 +84,20 @@ class GameManager {
        
       });
 
-      this.scene.events.on ('destroyEnemy', (monsterId) => {
+      this.scene.events.on ('monsterAttacked', (monsterId) => {
 
         // update the spawner
         if (this.monsters[monsterId]){
+          //subtract health from monster model
+          this.monsters[monsterId].loseHealth();
 
-          this.spawners[this.monsters[monsterId].spawnerId].removeObject(monsterId);
+          //check the monster health and if dead remove that object
+          if(this.monsters[monsterId].health <=0){
+            this.spawners[this.monsters[monsterId].spawnerId].removeObject(monsterId);
+            this.scene.events.emit ('monsterRemoved', monsterId);
+          }
+
+          
         }
         
        

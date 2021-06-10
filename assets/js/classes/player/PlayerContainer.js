@@ -51,7 +51,7 @@ class PlayerContainer extends Phaser.GameObjects.Container{
     this.weapon.setScale(1.5);
     this.scene.physics.world.enable(this.weapon);
     this.add(this.weapon);
-    this.weapon.alpha= 1;
+    this.weapon.alpha= 0;
 
     
     }
@@ -69,12 +69,14 @@ class PlayerContainer extends Phaser.GameObjects.Container{
             this.body.setVelocityX(-this.velocity);
             this.currentDirection =Direction.LEFT;
             this.weapon.setPosition (-40, 0)
+            this.player.flipX= false;
     
         } else if (cursors.right.isDown){
     
             this.body.setVelocityX(this.velocity);
             this.currentDirection =Direction.RIGHT;
             this.weapon.setPosition (40, 0)
+            this.player.flipX= true;
     
         } 
     
@@ -93,7 +95,28 @@ class PlayerContainer extends Phaser.GameObjects.Container{
     
         } 
 
+        if(Phaser.Input.Keyboard.JustDown (cursors.space) && !this.playerAttacking){
+
+            this.weapon.alpha= 1;
+            this.playerAttacking = true;
+            this.scene.time.delayedCall (150, () => {
+                this.weapon.alpha= 0;
+                this.playerAttacking = false;
+                this.swordHit = false;
+
+
+            }, [], this);
+        }
+
         if (this.playerAttacking) {
+
+            if(this.weapon.flipX) {
+
+                this.weapon.angle -= 10;
+            } else {
+
+                this.weapon.angle += 10;
+            }
 
 
         } else {
@@ -106,7 +129,11 @@ class PlayerContainer extends Phaser.GameObjects.Container{
                 this.weapon.setAngle(0);
             }
 
-
+            this.weapon.flipX= false;
+            if(this.currentDirection === Direction.LEFT ){
+                
+                this.weapon.flipX= true;
+            }
 
         }
     

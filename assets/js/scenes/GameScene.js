@@ -144,14 +144,21 @@ this.physics.add.overlap (this.player, this.chests, this.collectChest, null, thi
 // add a collider between monster group and blocked Layer items
 this.physics.add.collider (this.monsters, this.map.blockedLayer)
 
-//check for overlap between player and monster gameobjects
-this.physics.add.overlap (this.player, this.monsters, this.enemyOverlap, null, this);
+//check for overlap between player's weapon and monster gameobjects
+this.physics.add.overlap (this.player.weapon, this.monsters, this.enemyOverlap, null, this);
 
  }
 
  enemyOverlap (player, enemy){
-   enemy.makeInactive();
-   this.events.emit ('destroyEnemy', enemy.id)
+
+  if(this.player.playerAttacking && !this.player.swordHit){
+
+    this.player.swordHit= true;
+    
+   this.events.emit ('monsterAttacked', enemy.id)
+
+  }
+   
 
  }
 
@@ -203,6 +210,17 @@ this.events.on ('monsterSpawned', (monster) => {
 
   // create monster game object
   this.spawnMonster(monster)
+ 
+});
+
+this.events.on ('monsterRemoved', (monsterId) => {
+
+  this.monsters.getChildren().forEach((monster)=> {
+
+    if(monster.id === monsterId) {
+      monster.makeInactive();
+    }
+  })
  
 });
 
