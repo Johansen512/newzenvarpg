@@ -39,10 +39,20 @@ class GameScene extends Phaser.Scene {
 
  }
 
- createPlayer (location) {
+ createPlayer (playerObject) {
  // create character game object
 
- this.player = new PlayerContainer (this, location[0] * 2, location[1] * 2, 'characters', 0);
+ this.player = new PlayerContainer (
+   this, 
+   playerObject.x * 2, 
+   playerObject.y * 2, 
+   'characters', 
+   0,
+   playerObject.health,
+   playerObject.maxHealth,
+   playerObject.id,
+   
+   );
 
  }
 
@@ -189,10 +199,10 @@ createMap (){
 
 createGameManager (){
 
-  this.events.on ('spawnPlayer', (location) => {
+  this.events.on ('spawnPlayer', (playerObject) => {
 
         // create character game object
-        this.createPlayer(location);
+        this.createPlayer(playerObject);
         // add a collider between player and objects
         // check for overlap between player and other physics objects
         // play audio and destroy chest
