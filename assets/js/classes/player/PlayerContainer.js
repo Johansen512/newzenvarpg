@@ -7,7 +7,7 @@ const Direction= {
 
 class PlayerContainer extends Phaser.GameObjects.Container{
 
-    constructor (scene, x, y, key, frame, health, maxHealth, id){
+    constructor (scene, x, y, key, frame, health, maxHealth, id, attackAudio ){
     
     super (scene, x, y);
     
@@ -23,6 +23,7 @@ class PlayerContainer extends Phaser.GameObjects.Container{
     this.health = health;
     this.maxHealth = maxHealth;
     this.id = id;
+    this.attackAudio = attackAudio;
 
     //set the size of the container
     this.setSize (64,64)
@@ -139,6 +140,7 @@ class PlayerContainer extends Phaser.GameObjects.Container{
 
             this.weapon.alpha= 1;
             this.playerAttacking = true;
+            this.attackAudio.play ();
             this.scene.time.delayedCall (150, () => {
                 this.weapon.alpha= 0;
                 this.playerAttacking = false;
