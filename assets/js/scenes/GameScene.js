@@ -10,7 +10,7 @@ class GameScene extends Phaser.Scene {
        // run Ui Scene in parallel with Game Scene
       this.scene.launch ('Ui');
 
-      this.score = 0;
+      
     }
 
     create(){
@@ -159,13 +159,13 @@ this.physics.add.overlap (this.player.weapon, this.monsters, this.enemyOverlap, 
 
  }
 
- enemyOverlap (player, enemy){
+ enemyOverlap (weapon, enemy){
 
   if(this.player.playerAttacking && !this.player.swordHit){
 
     this.player.swordHit= true;
     
-   this.events.emit ('monsterAttacked', enemy.id)
+   this.events.emit ('monsterAttacked', enemy.id, this.player.id);
 
   }
    
@@ -176,17 +176,11 @@ this.physics.add.overlap (this.player.weapon, this.monsters, this.enemyOverlap, 
 //play gold pickup sound
   this.goldPickupAudio.play (); 
 
-  //Update our score
-  this.score += chest.coins;
 
- // update score in the Ui
-  this.events.emit ('updateScore', this.score);
-
-  //make the chest game object inactive
-  chest.makeInactive();
+ 
 
 
-  this.events.emit ('pickUpChest', chest.id)
+  this.events.emit ('pickUpChest', chest.id, player.id)
  }
 
 createMap (){
@@ -223,6 +217,21 @@ this.events.on ('monsterSpawned', (monster) => {
  
 });
 
+this.events.on ('chestRemoved', (chestId) => {
+
+  this.chests.getChildren().forEach((chest)=> {
+
+    if(chest.id === chestId) {
+      chest.makeInactive();
+    }
+  })
+ 
+});
+
+
+
+
+
 this.events.on ('monsterRemoved', (monsterId) => {
 
   this.monsters.getChildren().forEach((monster)=> {
@@ -243,6 +252,12 @@ this.events.on ('updateMonsterHealth', (monsterId, health) => {
       monster.updateHealth(health);
     }
   })
+ 
+});
+
+this.events.on ('updatePlayerHealth', (playerId, health) => {
+
+ this.player.updateHealth(health)
  
 });
 
