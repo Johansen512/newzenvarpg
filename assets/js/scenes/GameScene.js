@@ -36,6 +36,10 @@ class GameScene extends Phaser.Scene {
  createAudio () {
   // create sound game object
   this.goldPickupAudio = this.sound.add ('goldSound', {loop:false, volume: 0.4});
+  this.playerAttackAudio = this.sound.add ('playerAttack', {loop:false, volume: 0.4});
+  this.playerDamageAudio = this.sound.add ('playerDamage', {loop:false, volume: 0.4});
+  this.playerDeathAudio = this.sound.add ('playerDeath', {loop:false, volume: 0.8});
+  this.monsterDeathAudio = this.sound.add ('enemyDeath', {loop:false, volume: 0.4});
 
  }
 
@@ -51,6 +55,7 @@ class GameScene extends Phaser.Scene {
    playerObject.health,
    playerObject.maxHealth,
    playerObject.id,
+   this.playerAttackAudio,
    
    );
 
@@ -238,6 +243,7 @@ this.events.on ('monsterRemoved', (monsterId) => {
 
     if(monster.id === monsterId) {
       monster.makeInactive();
+      this.monsterDeathAudio.play();
     }
   })
  
@@ -258,6 +264,11 @@ this.events.on ('updateMonsterHealth', (monsterId, health) => {
 
 
 this.events.on ('updatePlayerHealth', (playerId, health) => {
+  if(health < this.player.health){
+    this.playerDamageAudio.play();
+
+  }
+  
 
   this.player.updateHealth(health)
   
@@ -265,7 +276,9 @@ this.events.on ('updatePlayerHealth', (playerId, health) => {
 
  this.events.on ('respawnPlayer', (playerObject) => {
 
-  this.player.respawn(playerObject)
+  
+  this.player.respawn(playerObject);
+  this.playerDeathAudio.play();
   
  });
 
