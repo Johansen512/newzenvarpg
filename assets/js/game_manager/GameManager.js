@@ -74,30 +74,57 @@ class GameManager {
       }
 
     setupEventListener(){
-      this.scene.events.on ('pickUpChest', (chestId) => {
+      this.scene.events.on ('pickUpChest', (chestId, playerId) => {
 
         // update the spawner
         if (this.chests[chestId]){
 
+          const { gold } = this.chests[chestId];
+
+          //Updating the players gold
+          this.players[playerId].updateGold(gold);
+          this.scene.events.emit ('updateScore', this.players [playerId].gold);
+
+          //removing the chest
+
           this.spawners[this.chests[chestId].spawnerId].removeObject(chestId);
+
+          this.scene.events.emit ('chestRemoved', chestId);
         }
         
        
       });
 
-      this.scene.events.on ('monsterAttacked', (monsterId) => {
+      this.scene.events.on ('monsterAttacked', (monsterId, playerId) => {
 
         // update the spawner
         if (this.monsters[monsterId]){
+
+          const { gold, attack } = this.monsters[monsterId];
+
           //subtract health from monster model
           this.monsters[monsterId].loseHealth();
 
           //check the monster health and if dead remove that object
           if(this.monsters[monsterId].health <=0){
+            
+
+               //Updating the players gold
+          this.players[playerId].updateGold(gold);
+          this.scene.events.emit ('updateScore', this.players [playerId].gold);
+
+          //removing the monster
+
             this.spawners[this.monsters[monsterId].spawnerId].removeObject(monsterId);
             this.scene.events.emit ('monsterRemoved', monsterId);
           } 
           else {
+            //update players health
+            this.players[playerId].updateHealth(-attack);
+            this.scene.events.emit ('updatePlayerHealth', playerId, this.players[playerId].health);
+
+            //update monster health
+
             this.scene.events.emit ('updateMonsterHealth', monsterId, this.monsters[monsterId].health);
           }
 
