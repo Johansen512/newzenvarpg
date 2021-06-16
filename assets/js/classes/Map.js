@@ -26,8 +26,8 @@ class Map{
         // create blocked layer
         this.blockedLayer = this.map.createStaticLayer (this.blockedLayerName, this.tiles, 0, 0);
         this.blockedLayer.setScale (2)
-        this.blockedLayer.setCollisionByExclusion ([-1],this)
-      
+        // CHANGED THIS NEXT -> this.blockedLayer.setCollisionByExclusion ([-1],this)
+        this.blockedLayer.setCollisionByExclusion ([-1])
         //Update the world bounds
         this.scene.physics.world.bounds.width = this.map.widthInPixels * 2;
         this.scene.physics.world.bounds.height = this.map.heightInPixels * 2;

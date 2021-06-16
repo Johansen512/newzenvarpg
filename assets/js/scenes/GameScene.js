@@ -41,7 +41,7 @@ class GameScene extends Phaser.Scene {
   this.playerDeathAudio = this.sound.add ('playerDeath', {loop:false, volume: 0.8});
   this.monsterDeathAudio = this.sound.add ('enemyDeath', {loop:false, volume: 0.4});
   //Background
-  this.backgroundAudio = this.sound.add ('backgroundMusic', {loop:true, volume: 0.8});
+  this.backgroundAudio = this.sound.add ('backgroundMusic', {loop:true, volume: 0.2});
 
  }
 
@@ -53,7 +53,7 @@ class GameScene extends Phaser.Scene {
    playerObject.x * 2, 
    playerObject.y * 2, 
    'characters', 
-   0,
+   5,
    playerObject.health,
    playerObject.maxHealth,
    playerObject.id,
@@ -296,9 +296,9 @@ this.events.on ('updatePlayerHealth', (playerId, health) => {
 
  this.events.on ('respawnPlayer', (playerObject) => {
 
-  
-  this.player.respawn(playerObject);
   this.playerDeathAudio.play();
+  this.player.respawn(playerObject);
+  
 
  
   

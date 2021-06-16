@@ -26,7 +26,7 @@ class PlayerContainer extends Phaser.GameObjects.Container{
     this.attackAudio = attackAudio;
 
     //set the size of the container
-    this.setSize (64,64)
+    this.setSize (48,48)
     
     //enable physics
     this.scene.physics.world.enable (this);
@@ -75,6 +75,7 @@ class PlayerContainer extends Phaser.GameObjects.Container{
         this.healthBar.fillRect(this.x - 32, this.y - 40, 64, 5);
         this.healthBar.fillGradientStyle(0xff0000, 0xffffff, 4);
         this.healthBar.fillRect(this.x - 32, this.y - 40, 64 * (this.health/this.maxHealth), 5);
+        
 
 
 
@@ -109,14 +110,14 @@ class PlayerContainer extends Phaser.GameObjects.Container{
     
             this.body.setVelocityX(-this.velocity);
             this.currentDirection =Direction.LEFT;
-            this.weapon.setPosition (-40, 0)
+            this.weapon.setPosition (-20, 0)
             this.player.flipX= false;
     
         } else if (cursors.right.isDown){
     
             this.body.setVelocityX(this.velocity);
             this.currentDirection =Direction.RIGHT;
-            this.weapon.setPosition (40, 0)
+            this.weapon.setPosition (20, 0)
             this.player.flipX= true;
     
         } 
@@ -126,13 +127,13 @@ class PlayerContainer extends Phaser.GameObjects.Container{
     
             this.body.setVelocityY(-this.velocity);
             this.currentDirection =Direction.UP;
-            this.weapon.setPosition (0, -40);
+            this.weapon.setPosition (0, -20);
     
         } else if (cursors.down.isDown){
     
             this.body.setVelocityY(this.velocity)
             this.currentDirection =Direction.DOWN;
-            this.weapon.setPosition (0, 40);
+            this.weapon.setPosition (0, 20);
     
         } 
 
@@ -141,10 +142,12 @@ class PlayerContainer extends Phaser.GameObjects.Container{
             this.weapon.alpha= 1;
             this.playerAttacking = true;
             this.attackAudio.play ();
+            this.weapon.setScale(1);
             this.scene.time.delayedCall (150, () => {
                 this.weapon.alpha= 0;
                 this.playerAttacking = false;
                 this.swordHit = false;
+                
 
 
             }, [], this);
@@ -179,7 +182,7 @@ class PlayerContainer extends Phaser.GameObjects.Container{
 
         }
 
-        this.updateHealthBar ();
+       this.updateHealthBar ();
     
     }
     
