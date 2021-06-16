@@ -47,6 +47,8 @@ class BootScene extends Phaser.Scene {
          this.load.audio ('playerAttack', ['assets/audio/PlayerAttack.wav']);
          this.load.audio ('playerDamage', ['assets/audio/PlayerDamage.wav']);
          this.load.audio ('playerDeath', ['assets/audio/PlayerDeath.wav']);
+         //background
+         this.load.audio ('backgroundMusic', ['assets/audio/backgroundtest1.wav']);
 
     }
 

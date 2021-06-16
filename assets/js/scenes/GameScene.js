@@ -40,6 +40,8 @@ class GameScene extends Phaser.Scene {
   this.playerDamageAudio = this.sound.add ('playerDamage', {loop:false, volume: 0.4});
   this.playerDeathAudio = this.sound.add ('playerDeath', {loop:false, volume: 0.8});
   this.monsterDeathAudio = this.sound.add ('enemyDeath', {loop:false, volume: 0.4});
+  //Background
+  this.backgroundAudio = this.sound.add ('backgroundMusic', {loop:true, volume: 0.8});
 
  }
 
@@ -57,6 +59,7 @@ class GameScene extends Phaser.Scene {
    playerObject.id,
    this.playerAttackAudio,
    
+   
    );
 
  }
@@ -68,6 +71,7 @@ class GameScene extends Phaser.Scene {
 
   //Create Monster Group
   this.monsters = this.physics.add.group();
+  this.monsters.runChildUpdate = true;
 
 
   
@@ -109,8 +113,8 @@ class GameScene extends Phaser.Scene {
   
   if (!monster) {  monster = new Monster(
     this, 
-    monsterObject.x * 2, 
-    monsterObject.y *2, 
+    monsterObject.x, 
+    monsterObject.y, 
     'monsters', 
     monsterObject.frame,
     monsterObject.id,
@@ -131,7 +135,7 @@ class GameScene extends Phaser.Scene {
     monster.health = monsterObject.health;
     monster.maxHealth = monsterObject.maxHealth;
     monster.setTexture('monsters', monsterObject.frame);
-    monster.setPosition (monsterObject.x * 2, monsterObject.y *2);
+    monster.setPosition (monsterObject.x, monsterObject.y);
     monster.makeActive();
   }
 
@@ -206,6 +210,8 @@ createGameManager (){
         // check for overlap between player and other physics objects
         // play audio and destroy chest
         this.addCollisions();
+         //test af baggrundsmusik
+  this.backgroundAudio.play();
 });
 
 this.events.on ('chestSpawned', (chest) => {
@@ -261,6 +267,20 @@ this.events.on ('updateMonsterHealth', (monsterId, health) => {
  
 });
 
+this.events.on ('monsterMovement', (monsters) => {
+
+  this.monsters.getChildren().forEach((monster)=> {
+
+   Object.keys(monsters).forEach((monsterId) => {
+
+    if(monster.id === monsterId ){
+      this.physics.moveToObject(monster, monsters[monsterId], 40)
+    }
+   })
+  })
+ 
+});
+
 
 
 this.events.on ('updatePlayerHealth', (playerId, health) => {
@@ -279,6 +299,8 @@ this.events.on ('updatePlayerHealth', (playerId, health) => {
   
   this.player.respawn(playerObject);
   this.playerDeathAudio.play();
+
+ 
   
  });
 
