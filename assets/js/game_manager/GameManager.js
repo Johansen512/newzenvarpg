@@ -203,7 +203,8 @@ class GameManager {
                   config, 
                   this.monsterLocations[key], 
                   this.addMonster.bind(this), 
-                  this.deleteMonster.bind(this)
+                  this.deleteMonster.bind(this),
+                  this.moveMonsters.bind(this),
                   
                   ); 
                   this.spawners [spawner.id] = spawner;
@@ -240,5 +241,9 @@ class GameManager {
 
     deleteMonster(monsterId){
       delete this.monsters[monsterId];
+    }
+
+    moveMonsters(){
+      this.scene.events.emit ('monsterMovement', this.monsters);
     }
 }
