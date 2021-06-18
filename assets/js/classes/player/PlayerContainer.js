@@ -76,6 +76,7 @@ class PlayerContainer extends Phaser.GameObjects.Container{
         this.healthBar.fillGradientStyle(0xff0000, 0xffffff, 4);
         this.healthBar.fillRect(this.x - 32, this.y - 40, 64 * (this.health/this.maxHealth), 5);
         
+        
 
 
 
@@ -84,6 +85,7 @@ class PlayerContainer extends Phaser.GameObjects.Container{
     updateHealth(health){
         this.health = health;
         this.updateHealthBar();
+        console.log (health);
     }
 
 
@@ -93,6 +95,9 @@ class PlayerContainer extends Phaser.GameObjects.Container{
         this.setPosition(playerObject.x, playerObject.y);
         this.updateHealthBar();
     }
+
+
+
 
 
 

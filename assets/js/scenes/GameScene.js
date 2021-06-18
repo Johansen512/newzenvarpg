@@ -24,11 +24,55 @@ class GameScene extends Phaser.Scene {
       this.createInput();
       this.createGameManager();
 
+      //testting her
+
+      //this.createAddonHp();
+      //this.statusUpdate();
+      this.createTimeOnEvent();
+
+
+
  }
+
+
+
+
+  //TEST HER
+
+  /*AddonHp (){text = this.add.text(32, 32);
+      timedEvent = this.time.delayedCall(3000, onEvent, [], this);}
+  
+  statusUpdate ()
+  {text.setText('Event.progress: ' + timedEvent.getProgress().toString().substr(0, 4));}*/
+  
+  createTimeOnEvent ()
+{
+
+  for (let step = 0; step <= 10; step++) {
+    // Runs 5 times, with values of step 0 through 4.
+    console.log(step);
+    if (step = 10) {
+      
+     console.log("hep");
+      console.log(step);
+
+    }
+    
+  }
+  
+ // this.timedEvent = this.time.delayedCall(3000, this.onEvent, [], this);
+  //this.onEvent = console.log (this.timedEvent)
+      
+
+      
+  }
+  
+      //TEST SLUT HER
 
  update () {
 
-  if (this.player) this.player.update (this.cursors)
+  if (this.player) this.player.update (this.cursors);
+  
  
  }
 
@@ -44,6 +88,12 @@ class GameScene extends Phaser.Scene {
   this.backgroundAudio = this.sound.add ('backgroundMusic', {loop:true, volume: 0.2});
 
  }
+
+
+
+
+
+ 
 
  createPlayer (playerObject) {
  // create character game object
@@ -63,6 +113,8 @@ class GameScene extends Phaser.Scene {
    );
 
  }
+
+ 
 
  createGroups(){
 
@@ -184,6 +236,7 @@ this.physics.add.overlap (this.player.weapon, this.monsters, this.enemyOverlap, 
  collectChest (player, chest){
 //play gold pickup sound
   this.goldPickupAudio.play (); 
+  this.createTimeOnEvent();
 
 
  
@@ -212,6 +265,7 @@ createGameManager (){
         this.addCollisions();
          //test af baggrundsmusik
   this.backgroundAudio.play();
+  
 });
 
 this.events.on ('chestSpawned', (chest) => {
@@ -303,6 +357,17 @@ this.events.on ('updatePlayerHealth', (playerId, health) => {
  
   
  });
+
+   
+
+
+
+
+
+
+
+
+
 
 
   this.gameManager = new GameManager (this, this.map.map.objects);
