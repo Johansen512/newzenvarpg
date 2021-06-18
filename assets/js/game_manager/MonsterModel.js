@@ -16,7 +16,7 @@ class MonsterModel {
     loseHealth () {
        
 
-        this.health -=1;
+        this.health -=10;
     }
 
     move() {

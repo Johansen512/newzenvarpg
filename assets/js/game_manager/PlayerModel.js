@@ -1,7 +1,7 @@
 class PlayerModel{
     constructor(spawnLocations){
-        this.health = 10;
-        this.maxHealth = 10;
+        this.health = 100;
+        this.maxHealth = 100;
         this.gold = 0;
         this.id = `player-${uuid.v4()}`;
         this.spawnLocations = spawnLocations;
@@ -20,7 +20,7 @@ class PlayerModel{
 
     updateHealth (health) {
         this.health += health;
-        if (this.health > 10) this.health = 10;
+        if (this.health > 100) this.health = 100;
         }
         
 

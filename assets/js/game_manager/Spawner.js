@@ -61,8 +61,8 @@ class Spawner {
             randomNumber (10,20), 
             this.id,
             randomNumber(0,20),
-            randomNumber (3,5),
-            1,
+            randomNumber (30,50),
+            10,
             
             );
 
